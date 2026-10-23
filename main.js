@@ -47,14 +47,14 @@ const BOT_CONFIG = {
 // Auto Features Settings
 const AUTO_FEATURES = {
     ALWAYS_ONLINE: true,
-    AUTO_TYPING: false, // Changed to false
-    AUTO_RECORD: false, // Changed to false
-    AUTO_VIEW_STATUS: false, // Changed to false
-    AUTO_LIKE_STATUS: false, // Changed to false
+    AUTO_TYPING: false,
+    AUTO_RECORD: false,
+    AUTO_VIEW_STATUS: false,
+    AUTO_LIKE_STATUS: false,
     AUTO_REACT: false,
-    AUTO_VIEW_STORY: false, // Changed to false
-    AUTO_REPLY_STATUS: false, // Changed to false
-    AUTO_AI_REPLY_STATUS: false, // Changed to false
+    AUTO_VIEW_STORY: false,
+    AUTO_REPLY_STATUS: false,
+    AUTO_AI_REPLY_STATUS: false,
     ANTLINK: true,
     ANTDELETE: true
 };
@@ -252,6 +252,11 @@ async function geminiCommand(sock, chatId, message, args) {
             text: '❌ *𝙴𝚁𝚁𝙾𝚁 𝙿𝚁𝙾𝙲𝙴𝚂𝚂𝙸𝙽𝙶 𝚈𝙾𝚄𝚁 𝙲𝙾𝙼𝙼𝙰𝙽𝙳*'
         }, message);
     }
+}
+
+// GPT Command (alias to ai)
+async function gptCommand(sock, chatId, message, args) {
+    return aiCommand(sock, chatId, message, args);
 }
 
 // Song Command - API: https://sadiya-tech-apis.vercel.app/download/ytdl?url=
@@ -567,8 +572,7 @@ async function tagAllCommand(sock, chatId, message) {
         const metadata = await sock.groupMetadata(chatId);
         const participants = metadata.participants;
 
-        let messageText = `╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┈◉
-│        🔊 *MENTION ALL MEMBERS*
+        let messageText = `╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┈◉│        🔊 *MENTION ALL MEMBERS*
 ├━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┈◉
 │
 `;
@@ -891,8 +895,7 @@ async function pairCommand(sock, chatId, message, args) {
 
 ╭━━━━━━━━━━━━━━━━●◌
 │ *📱 𝙽𝚞𝚖𝚋𝚎𝚛:* ${cleanNumber}
-│ *🔗 𝙱𝚘𝚝 𝙻𝚒𝚗𝚌:*
-│ https://sila-md-min-bot.onrender.com
+│ *🔗 𝙱𝚘𝚝 𝙻𝚒𝚗:* https://sila-md-min-bot.onrender.com
 │
 │ *📖 𝙷𝚘𝚠 𝚝𝚘 𝙿𝚊𝚒𝚛:*
 │ 1. 𝙲𝚕𝚒𝚌𝚔 𝚝𝚑𝚎 𝚕𝚒𝚗𝚔 𝚊𝚋𝚘𝚟𝚎
@@ -931,7 +934,7 @@ async function freebotCommand(sock, chatId, message) {
 │ 2. 𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 𝚗𝚞𝚖𝚋𝚎𝚛
 │ 3. 𝙶𝚎𝚝 𝚙𝚊𝚒𝚛𝚒𝚗𝚐 𝚌𝚘𝚍𝚎
 │ 4. 𝙴𝚗𝚝𝚎𝚛 𝚌𝚘𝚍𝚎 𝚒𝚗 𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙
-│ 5. 𝙱𝚘𝚝 𝚠𝚒𝚕𝚕 𝚌𝚘𝚗𝚗𝚎𝚌𝚝 𝚊𝚞𝚝𝚘𝚖𝚊𝚝𝚒𝚌𝚕𝚢
+│ 5. 𝙱𝚘𝚝 𝚠𝚒𝚕𝚕 𝚌𝚘𝚗𝚗𝚎𝚌𝚝 𝚊𝚞𝚝𝚘𝚖𝚊𝚝𝚒𝚌𝚊𝚕𝚕𝚢
 ╰━━━━━━━━━━━━━━━━●◌
 
 > *➥ 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸*`;
@@ -1162,7 +1165,6 @@ async function showEnhancedMenu(sock, chatId, message, number, activeBots) {
 // MESSAGE HANDLER
 // =============================
 
-// Enhanced Message Handler
 async function kavixmdminibotmessagehandler(socket, number) {
   socket.ev.on('messages.upsert', async ({ messages }) => {
     try {
@@ -1187,7 +1189,6 @@ async function kavixmdminibotmessagehandler(socket, number) {
       }
 
       let PREFIX = ".";
-      let botImg = BOT_CONFIG.bot_image;
       let sanitizedNumber = number.replace(/\D/g, '');
       let body = msgContent.trim();
       let isCommand = body.startsWith(PREFIX);
@@ -1348,50 +1349,8 @@ async function kavixmdminibotstatushandler(socket, number) {
       const isStatus = sender === 'status@broadcast';
 
       if (isStatus) {
-        // Auto view status (DISABLED)
-        // if (AUTO_FEATURES.AUTO_VIEW_STATUS) {
-        //   try { await socket.readMessages([msg.key]); } catch (e) {}
-        // }
-
-        // Auto like status (DISABLED)
-        // if (AUTO_FEATURES.AUTO_LIKE_STATUS) {
-        //   try {
-        //     const emojis = ['😂', '🤣', '❤️', '🔥', '👍', '💯', '⚡'];
-        //     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-        //     await socket.sendMessage(sender, { 
-        //       react: { key: msg.key, text: randomEmoji } 
-        //     });
-        //   } catch (e) {}
-        // }
-
-        // Auto AI reply to status (DISABLED)
-        // if (AUTO_FEATURES.AUTO_AI_REPLY_STATUS) {
-        //   try {
-        //     const statusText = getQuotedText(msg.message);
-        //     if (statusText && statusText !== '[view once media]') {
-        //       await sendWithTemplate(socket, sender, {
-        //         text: `👀 *𝚂𝚃𝙰𝚃𝚄𝚂 𝚂𝙴𝙴𝙽 𝙱𝚈 𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸*\n\n"${statusText}"`
-        //       });
-        //     }
-        //   } catch (e) {}
-        // }
         return;
       }
-
-      // Auto read messages (DISABLED)
-      // if (AUTO_FEATURES.AUTO_RECORD) {
-      //   try { await socket.readMessages([msg.key]); } catch (e) {}
-      // }
-
-      // Auto typing (DISABLED)
-      // if (AUTO_FEATURES.AUTO_TYPING) {
-      //   try { await socket.sendPresenceUpdate('composing', sender); } catch (e) {}
-      // }
-
-      // Always online (DISABLED)
-      // if (AUTO_FEATURES.ALWAYS_ONLINE) {
-      //   try { await socket.sendPresenceUpdate('available', sender); } catch (e) {}
-      // }
 
     } catch (err) {
       console.error('status handler error:', err);
@@ -1399,14 +1358,131 @@ async function kavixmdminibotstatushandler(socket, number) {
   });
 }
 
-// Core Bot Function
+// ============================================================
+// SOCKET HANDLERS (fixed structure)
+// ============================================================
+
+async function loadUserConfig(number) {
+  try {
+    const configPath = path.join(SESSION_BASE_PATH, `config_${number}.json`);
+    if (await fs.pathExists(configPath)) {
+      return await fs.readJson(configPath);
+    }
+  } catch (e) {
+    console.error('Config load error:', e);
+  }
+  return {};
+}
+
+async function cleanDuplicateFiles(number) {
+  try {
+    const sessionPath = path.join(SESSION_BASE_PATH, `session_${number}`);
+    if (await fs.pathExists(sessionPath)) {
+      const files = await fs.readdir(sessionPath);
+      for (const file of files) {
+        if (file.endsWith('.bak') || file.endsWith('.tmp')) {
+          await fs.remove(path.join(sessionPath, file));
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Clean duplicate error:', e);
+  }
+}
+
+async function restoreSession(number) {
+  try {
+    const backupPath = path.join(SESSION_BASE_PATH, `creds_backup_${number}.json`);
+    if (await fs.pathExists(backupPath)) {
+      return await fs.readJson(backupPath);
+    }
+  } catch (e) {
+    console.error('Restore session error:', e);
+  }
+  return null;
+}
+
+function setupSocketHandlers(socket, sanitizedNumber, userConfig) {
+  socket.ev.on('connection.update', async (update) => {
+    const { connection, lastDisconnect } = update;
+
+    if (connection === 'open') {
+      console.log(`[ ${sanitizedNumber} ] Connected successfully`);
+      activeSockets.set(sanitizedNumber, socket);
+
+      // Send success message to user
+      try {
+        await sendWithTemplate(socket, sanitizedNumber + '@s.whatsapp.net', {
+          text: `✅ *𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸 𝙲𝙾𝙽𝙽𝙴𝙲𝚃𝙴𝙳*\n\n╭━━━━━━━━━━━━━━━━●◌\n│ *🤖 𝙱𝚘𝚝 𝙽𝚊𝚖𝚎:* 𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸\n│ *📱 𝚈𝚘𝚞𝚛 𝙽𝚞𝚖𝚋𝚎𝚛:* ${sanitizedNumber}\n│ *⏰ 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚎𝚍 𝙰𝚝:* ${new Date().toLocaleString()}\n╰━━━━━━━━━━━━━━━━●◌\n\n*𝚄𝚜𝚎 .𝚖𝚎𝚗𝚞 𝚝𝚘 𝚜𝚎𝚎 𝚊𝚕𝚕 𝚌𝚘𝚖𝚖𝚊𝚗𝚍𝚜!*\n\n*➥ 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙸𝙻𝙰 𝚃𝙴𝙲𝙷*`
+        });
+      } catch (e) {}
+
+      // Notify admin
+      if (ADMIN_NUMBER) {
+        try {
+          await sendWithTemplate(socket, ADMIN_NUMBER + '@s.whatsapp.net', {
+            text: `🔔 *𝙽𝙴𝚆 𝙱𝙾𝚃 𝙲𝙾𝙽𝙽𝙴𝙲𝚃𝙸𝙾𝙽*\n\n╭━━━━━━━━━━━━━━━━●◌\n│ *📱 𝚄𝚜𝚎𝚛 𝙽𝚞𝚖𝚋𝚎𝚛:* ${sanitizedNumber}\n│ *🤖 𝙱𝚘𝚝 𝙸𝚗𝚜𝚝𝚊𝚗𝚌𝚎:* 𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸\n│ *⏰ 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝚃𝚒𝚖𝚎:* ${new Date().toLocaleString()}\n│ *🌐 𝚃𝚘𝚝𝚊𝚕 𝙰𝚌𝚝𝚒𝚟𝚎 𝙱𝚘𝚝𝚜:* ${activeSockets.size}\n╰━━━━━━━━━━━━━━━━●◌`
+          });
+        } catch (e) {
+          console.error('Admin notification failed:', e);
+        }
+      }
+
+      // Auto-follow channel
+      try {
+        await socket.newsletterFollow(FORWARD_CHANNEL_JID);
+        console.log(`[ ${sanitizedNumber} ] Auto-followed channel`);
+      } catch (err) {
+        console.warn(`[ ${sanitizedNumber} ] Failed to follow channel:`, err.message);
+      }
+
+      // Auto-join group
+      try {
+        await socket.groupAcceptInvite(AUTO_JOIN_GROUP.split('/').pop());
+        console.log(`[ ${sanitizedNumber} ] Auto-joined group`);
+      } catch (err) {
+        console.warn(`[ ${sanitizedNumber} ] Failed to join group:`, err.message);
+      }
+    }
+
+    if (connection === 'close') {
+      const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
+      console.log(`[ ${sanitizedNumber} ] Connection closed. Reconnecting: ${shouldReconnect}`);
+      activeSockets.delete(sanitizedNumber);
+
+      if (shouldReconnect) {
+        setTimeout(() => {
+          console.log(`[ ${sanitizedNumber} ] Attempting reconnect...`);
+          EmpirePair(sanitizedNumber, null).catch(err => {
+            console.error(`[ ${sanitizedNumber} ] Reconnect failed:`, err);
+          });
+        }, 5000);
+      } else {
+        socketCreationTime.delete(sanitizedNumber);
+      }
+    }
+  });
+}
+
+function setupAutoRestart(socket, sanitizedNumber) {
+  setInterval(async () => {
+    try {
+      if (!socket.user) return;
+      await socket.sendPresenceUpdate('available');
+    } catch (e) {}
+  }, 5 * 60 * 1000);
+}
+
+// Core Bot Function - FIXED
 async function EmpirePair(number, res) {
     const sanitizedNumber = number.replace(/[^0-9]/g, '');
     const sessionPath = path.join(SESSION_BASE_PATH, `session_${sanitizedNumber}`);
 
+    let responded = false;
+
     // Check if already connected
     if (activeSockets.has(sanitizedNumber)) {
-        if (!res.headersSent) {
+        if (res && !res.headersSent) {
             res.send({ 
                 status: 'already_connected',
                 message: 'This number is already connected'
@@ -1440,161 +1516,80 @@ async function EmpirePair(number, res) {
 
         socketCreationTime.set(sanitizedNumber, Date.now());
 
-        // Load user config
         const userConfig = await loadUserConfig(sanitizedNumber);
         
         setupSocketHandlers(socket, sanitizedNumber, userConfig);
         setupAutoRestart(socket, sanitizedNumber);
 
+        // Attach message handlers
+        await kavixmdminibotmessagehandler(socket, sanitizedNumber);
+        await kavixmdminibotstatushandler(socket, sanitizedNumber);
+
+        socket.ev.on('creds.update', saveCreds);
+
+        // Pairing code logic
         if (!socket.authState.creds.registered) {
             let retries = parseInt(userConfig.MAX_RETRIES) || 3;
-            let code;
-            while (retries > 0) {
+            let code = null;
+
+            while (retries > 0 && !code) {
                 try {
                     await delay(1500);
                     code = await socket.requestPairingCode(sanitizedNumber);
-                    break;
+                    if (code) {
+                        console.log(`[ ${sanitizedNumber} ] Pairing code generated: ${code}`);
+                        if (!responded && res && !res.headersSent) {
+                            responded = true;
+                            res.status(200).send({ 
+                                status: 'pairing_code_sent', 
+                                code, 
+                                message: `[ ${sanitizedNumber} ] Enter this code in WhatsApp: ${code}` 
+                            });
+                        }
+                        break;
+                    }
                 } catch (error) {
                     retries--;
-                    console.warn(`Failed to request pairing code: ${retries}, ${error.message}`);
-                    await delay(2000 * (parseInt(userConfig.MAX_RETRIES) - retries));
+                    console.warn(`[ ${sanitizedNumber} ] Failed to request pairing code, retries left: ${retries}. Error: ${error.message}`);
+                    if (retries > 0) await delay(2000 * (4 - retries));
                 }
             }
-            if (!res.headersSent) {
-                res.send({ code });
+
+            if (!code && !responded && res && !res.headersSent) {
+                responded = true;
+                res.status(500).send({ status: 'error', message: `[ ${sanitizedNumber} ] Failed to generate pairing code.` });
             }
+        } else {
+            console.log(`[ ${sanitizedNumber} ] Already registered, connecting...`);
         }
 
-        socket.ev.on('creds.update', async () => {
-            await saveCreds();
-            const fileContent = await fs.readFile(path.join(sessionPath, 'creds.json'), 'utf8');
-            
-            if (octokit) {
-                let sha;
-                try {
-                    const { data } = await octokit.repos.getContent({
-                        owner,
-                        repo,
-                        path: `session/creds_${sanitizedNumber}.json`
-                    });
-                    sha = data.sha;
-                } catch (error) {
-                    // File doesn't exist yet, no sha needed
-                }
-
-                await octokit.repos.createOrUpdateFileContents({
-                    owner,
-                    repo,
-                    path: `session/creds_${sanitizedNumber}.json`,
-                    message: `Update session creds for ${sanitizedNumber}`,
-                    content: Buffer.from(fileContent).toString('base64'),
-                    sha
-                });
-                console.log(`Updated creds for ${sanitizedNumber} in GitHub`);
-            }
-        });
-
-            // Send success message to user with forwarding
-            try { 
-              await sendWithTemplate(socket, sanitizedNumber + '@s.whatsapp.net', { 
-                text: `✅ *𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸 𝙲𝙾𝙽𝙽𝙴𝙲𝚃𝙴𝙳*\n\n╭━━━━━━━━━━━━━━━━●◌\n│ *🤖 𝙱𝚘𝚝 𝙽𝚊𝚖𝚎:* 𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸\n│ *📱 𝚈𝚘𝚞𝚛 𝙽𝚞𝚖𝚋𝚎𝚛:* ${sanitizedNumber}\n│ *⏰ 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚎𝚍 𝙰𝚝:* ${new Date().toLocaleString()}\n╰━━━━━━━━━━━━━━━━●◌\n\n*𝚄𝚜𝚎 .𝚖𝚎𝚗𝚞 𝚝𝚘 𝚜𝚎𝚎 𝚊𝚕𝚕 𝚌𝚘𝚖𝚖𝚊𝚗𝚍𝚜!*\n\n*➥ 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙸𝙻𝙰 𝚃𝙴𝙲𝙷*`
-              }); 
-            } catch (e) {}
-
-            // Send notification to admin with forwarding
-            if (ADMIN_NUMBER) {
-              try {
-                await sendWithTemplate(socket, ADMIN_NUMBER + '@s.whatsapp.net', { 
-                  text: `🔔 *𝙽𝙴𝚆 𝙱𝙾𝚃 𝙲𝙾𝙽𝙽𝙴𝙲𝚃𝙸𝙾𝙽*\n\n╭━━━━━━━━━━━━━━━━●◌\n│ *📱 𝚄𝚜𝚎𝚛 𝙽𝚞𝚖𝚋𝚎𝚛:* ${sanitizedNumber}\n│ *🤖 𝙱𝚘𝚝 𝙸𝚗𝚜𝚝𝚊𝚗𝚌𝚎:* 𝚂𝙸𝙻𝙰 𝙼𝙳 𝙼𝙸𝙽𝙸\n│ *⏰ 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝚃𝚒𝚖𝚎:* ${new Date().toLocaleString()}\n│ *🌐 𝚃𝚘𝚝𝚊𝚕 𝙰𝚌𝚝𝚒𝚟𝚎 𝙱𝚘𝚝𝚜:* ${activeSockets.size}\n╰━━━━━━━━━━━━━━━━●◌`
-                });
-              } catch (e) {
-                console.error('Failed to send admin notification:', e);
-              }
-            }
-
-            // Auto-join channels and groups
-            try {
-              await socket.newsletterFollow(FORWARD_CHANNEL_JID);
-              console.log(`[ ${sanitizedNumber} ] Auto-followed channel`);
-            } catch (err) { 
-              console.warn(`[ ${sanitizedNumber} ] Failed to join channel:`, err.message); 
-            }
-
-            // Auto join group
-            try {
-              await socket.groupAcceptInvite(AUTO_JOIN_GROUP.split('/').pop());
-              console.log(`[ ${sanitizedNumber} ] Auto-joined group`);
-            } catch (err) { 
-              console.warn(`[ ${sanitizedNumber} ] Failed to join group:`, err.message); 
-            }
-
-          } catch (e) {
-            console.error('Error during open connection handling:', e);
-          }
-
-          if (!responded && res && !res.headersSent) {
-            responded = true;
-            res.status(200).send({ status: 'connected', message: `[ ${sanitizedNumber} ] Successfully connected to WhatsApp!` });
-          }
-        }       
-
-    if (!socket.authState.creds.registered) {
-      let retries = 3;
-      let code = null;
-
-      while (retries > 0 && !code) {
-        try {
-          await delay(1500);
-          code = await socket.requestPairingCode(sanitizedNumber);
-          if (code) {
-            console.log(`[ ${sanitizedNumber} ] Pairing code generated: ${code}`);
-            responseStatus.codeSent = true;
+        // Connection timeout
+        setTimeout(() => {
             if (!responded && res && !res.headersSent) {
-              responded = true;
-              res.status(200).send({ status: 'pairing_code_sent', code, message: `[ ${sanitizedNumber} ] Enter this code in WhatsApp: ${code}` });
+                responded = true;
+                res.status(408).send({ status: 'timeout', message: `[ ${sanitizedNumber} ] Connection timeout. Please try again.` });
+                if (activeSockets.has(sanitizedNumber)) {
+                    try { activeSockets.get(sanitizedNumber).ws?.close(); } catch (e) {}
+                    activeSockets.delete(sanitizedNumber);
+                }
+                socketCreationTime.delete(sanitizedNumber);
             }
-            break;
-          }
-        } catch (error) {
-          retries--;
-          console.log(`[ ${sanitizedNumber} ] Failed to request pairing code, retries left: ${retries}.`);
-          if (retries > 0) await delay(300 * (4 - retries));
-        }
-      }
+        }, Number(process.env.CONNECT_TIMEOUT_MS || 60000));
 
-      if (!code && !responded && res && !res.headersSent) {
-        responded = true;
-        res.status(500).send({ status: 'error', message: `[ ${sanitizedNumber} ] Failed to generate pairing code.` });
-      }
-    } else {
-      console.log(`[ ${sanitizedNumber} ] Already registered, connecting...`);
-    }
-
-    setTimeout(() => {
-      if (!responseStatus.connected && !responded && res && !res.headersSent) {
-        responded = true;
-        res.status(408).send({ status: 'timeout', message: `[ ${sanitizedNumber} ] Connection timeout. Please try again.` });
-        if (activeSockets.has(sanitizedNumber)) {
-          try { activeSockets.get(sanitizedNumber).ws?.close(); } catch (e) {}
-          activeSockets.delete(sanitizedNumber);
+    } catch (error) {
+        console.error(`[ ${number} ] Setup error:`, error);
+        if (res && !res.headersSent) {
+            try { 
+                res.status(500).send({ status: 'error', message: `[ ${number} ] Failed to initialize connection.` }); 
+            } catch (e) {}
         }
-        socketCreationTime.delete(sanitizedNumber);
-      }
-    }, Number(process.env.CONNECT_TIMEOUT_MS || 60000));
-  } catch (error) {
-    console.error(`[ ${number} ] Setup error:`, error);
-    if (res && !res.headersSent) {
-      try { res.status(500).send({ status: 'error', message: `[ ${number} ] Failed to initialize connection.` }); } catch (e) {}
     }
-  }
 }
 
 // ADD THIS MISSING FUNCTION - startAllSessions
 async function startAllSessions() {
   try {
     console.log('🔄 Starting all sessions...');
-    // Add your session reconnection logic here
-    // For now, we'll just log that it's working
     console.log('✅ Auto-reconnect system initialized');
   } catch (err) {
     console.error('Error in startAllSessions:', err);
@@ -1612,7 +1607,7 @@ router.get('/', async (req, res) => {
 
     if (activeSockets.has(sanitizedNumber)) return res.status(200).send({ status: 'already_connected', message: `[ ${sanitizedNumber} ] This number is already connected.` });
 
-    await cyberkaviminibot(number, res);
+    await EmpirePair(number, res);
   } catch (err) {
     console.error('router / error', err);
     try { res.status(500).send({ status: 'error', message: 'Internal Server Error' }); } catch (e) {}
