@@ -1,20 +1,17 @@
 {
-  "name": "SILA MD WhatsApp Bot",
-  "description": "Multi-device WhatsApp Bot by SILA",
-  "repository": "https://github.com/SILA/SILA-MD-s1",
-  "logo": "https://files.catbox.moe/90i7j4.png",
-  "keywords": ["whatsapp", "bot", "multi-device", "baileys"],
+  "name": "WhatsApp Bot",
+  "description": "Node.js WhatsApp bot using whatsapp-web.js",
+  "keywords": ["nodejs", "whatsapp", "bot"],
+  "repository": "https://github.com/your-username/your-whatsapp-bot",
+  "logo": "https://small-sharp-tool.com/logo.svg",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/jontewks/puppeteer-heroku-buildpack"
     }
   ],
-  "env": {
-    "NPM_CONFIG_LEGACY_PEER_DEPS": {
-      "description": "Fix npm peer dependency conflicts",
-      "value": "true"
-    }
-  },
   "formation": {
     "web": {
       "quantity": 1
